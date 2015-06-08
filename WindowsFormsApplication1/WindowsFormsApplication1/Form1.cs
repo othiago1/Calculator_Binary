@@ -21,12 +21,11 @@ namespace WindowsFormsApplication1
         public string n1;
         public string n2;
         public string result;
-        
+        public int index = 0;
  
-       
-
         public Form1()
         {
+            binSum("1001", "1");
             InitializeComponent();    
         }
 
@@ -46,7 +45,7 @@ namespace WindowsFormsApplication1
         {
             double rest = b % 2;
             double result = (b - rest) / 2;
-
+                       
             if (b == 1)
             {
                 return rest.ToString();
@@ -105,29 +104,29 @@ namespace WindowsFormsApplication1
             {
                 if (string.IsNullOrWhiteSpace(overflow))
                 {
-                    if (m1[i].Equals('0') && m2[i].Equals('0')) result += "0";
-                    if (m1[i].Equals('0') && m2[i].Equals('1')) result += "1";
-                    if (m1[i].Equals('1') && m2[i].Equals('0')) result += "1";
+                    if (m1[i].Equals('0') && m2[i].Equals('0')) result = "0" + result;
+                    if (m1[i].Equals('0') && m2[i].Equals('1')) result = "1" + result;
+                    if (m1[i].Equals('1') && m2[i].Equals('0')) result = "1" + result;
                     if (m1[i].Equals('1') && m2[i].Equals('1'))
-                    {
-                        overflow = "1";
+                    {                       
                         result = "0" + result;
+                        overflow = "1";
                     }
                 }
                else if ((m1[i].Equals('0') && m2[i].Equals('1')) || m1[i].Equals('1') && m2[i].Equals('0'))
-                {
-                    overflow = "1";
+                {                    
                     result = "0" + result;
+                    overflow = "1";
                 }
                 else if ((m1[i].Equals('0') && m2[i].Equals('0')))
-                {
-                    overflow = "";
+                {                    
                     result = "1" + result;
+                    overflow = "";
                 }
                 else if(m1[i].Equals('1') && m2[i].Equals('1'))
-                {
-                    overflow = "1"; 
+                {                   
                     result = "1" + result;
+                    overflow = "1"; 
                 }
             }
             return overflow + result;
@@ -201,7 +200,6 @@ namespace WindowsFormsApplication1
             if (textbox.Text.Equals("NAN (NÃO É UM NÚMERO)"))
             {
                 textbox.Text = "0";
-              //  conta.Text = "0";
             }
             Button xXx_operacao_xXx = sender as Button;
             operacao = xXx_operacao_xXx.Text;
@@ -213,12 +211,12 @@ namespace WindowsFormsApplication1
 
         private void binario_Click(object sender, EventArgs e)
         {
-            
+            textbox.Text = decToBin(double.Parse(textbox.Text));
         }
 
         private void decimal_Click(object sender, EventArgs e)
         {
-           
+            textbox.Text = Convert.ToString(binToDec(textbox.Text, index = 0));
         }
 
         private void Number_Click(object sender, EventArgs e)
@@ -240,6 +238,7 @@ namespace WindowsFormsApplication1
                         if (eresultado == false)
                         {
                             textbox.Text = textbox.Text + xXx_digito_xXx.Text;
+                            alertbox.Text = "";
                         }
                         else
                         {
@@ -256,7 +255,9 @@ namespace WindowsFormsApplication1
 
         private void Igual_Click(object sender, EventArgs e)
         {
+                alertbox.Text = "";
             switch (operacao) { 
+                    
                 case "+":
                     eresultado = true;
                     if (lastOperacao == "") { n2 = textbox.Text; }
@@ -264,7 +265,6 @@ namespace WindowsFormsApplication1
                     lastOperacao = operacao;
                     textbox.Text = binSum(n1, n2);
                     Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
-                    //conta.Text = primeironm + " " + operacao + " " + segundonm + " = " + result;
                     eresultado = true;
                     break;
                 case "-":
@@ -275,7 +275,6 @@ namespace WindowsFormsApplication1
                    if (n1.Length != n2.Length && !(binMaior(n1, n2))) alertbox.Text = "Primeiro menor que segundo";
                    else { textbox.Text = binSub(n1, n2); }
                    Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
-                   //conta.Text = primeironm + " " + operacao + " " + segundonm + " = " + result;
                    eresultado = true;
                    break;
                 case "*":
@@ -285,7 +284,6 @@ namespace WindowsFormsApplication1
                    lastOperacao = operacao;
                    textbox.Text = binMul(n1, n2);
                    Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
-                   //conta.Text = primeironm + " " + operacao + " " + segundonm + " = " + result;
                    eresultado = true;
                    break;
                     case "/":
@@ -300,7 +298,6 @@ namespace WindowsFormsApplication1
                        textbox.Text = r[0] + " + Resto:" + r[1];
                    }                    
                    Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
-                   //conta.Text = primeironm + " " + operacao + " " + segundonm + " = " + result;
                    eresultado = true;
                    break;
          
