@@ -14,9 +14,6 @@ namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
-
-  
-   
         public bool segundo = false;
         public string lastOperacao;
         public bool eresultado = false;
@@ -24,41 +21,45 @@ namespace WindowsFormsApplication1
         public string n1;
         public string n2;
         public string result;
-     
-
-
-
-        /*public string Converter(string a)
-        {
-            int CCount = -1;
-            R = 0;
-            
-            foreach (char b in a)
-            {
-                CCount++;
-            }
-
-            foreach (char b in a)
-            {
-                if (double.Parse(b.ToString()) < 2)
-                {
-                    R += double.Parse(b.ToString()) * Math.Pow(2, CCount);
-                }
-                }
-
-            return R.ToString();
-        }*/
-
+       
 
         public Form1()
         {
-            InitializeComponent();
-          
+            InitializeComponent();    
+        }
+
+        public static double binToDec(string a, int index = 0)
+        {
+            if (index == 0) a = revStr(a);
+
+            if (index > a.Length - 1)
+                return 0;
+            else
+            {
+                return binToDec(a, index + 1) + int.Parse(a.ElementAt(index).ToString()) * (Math.Pow(2, index));
+            }
+        }
+
+        
+
+        public static bool binMaior(string a, string b)
+        {
+            if (binToDec(a) > binToDec(b))
+            {
+                return true;
+            }
+            else if (binToDec(b) > binToDec(a))
+            {
+                return false;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public static string[] igualarNum(string a, string b) {
 
-           
            if(a.Length > b.Length)
             {
                 int index = a.Length - b.Length;
@@ -94,14 +95,12 @@ namespace WindowsFormsApplication1
                     if (m1[i].Equals('1') && m2[i].Equals('0')) result += "1";
                     if (m1[i].Equals('1') && m2[i].Equals('1'))
                     {
-
                         overflow = "1";
                         result = "0" + result;
                     }
                 }
                else if ((m1[i].Equals('0') && m2[i].Equals('1')) || m1[i].Equals('1') && m2[i].Equals('0'))
                 {
-                    
                     overflow = "1";
                     result = "0" + result;
                 }
@@ -109,21 +108,50 @@ namespace WindowsFormsApplication1
                 {
                     overflow = "";
                     result = "1" + result;
-
                 }
                 else if(m1[i].Equals('1') && m2[i].Equals('1'))
                 {
-
                     overflow = "1"; 
                     result = "1" + result;
-                    
                 }
             }
             return overflow + result;
-           
+          }
+
+        public static string binSub(string a, string b)
+        {
+            string m1 = igualarNum(a, b)[0];
+            string m2 = igualarNum(a, b)[1];
+
+            m2 = binSum(binTroca(m2), "1");
+
+            string result = binSum(m1, m2);
+            result = result.Remove(0, 1);
+            return result;
+        }
+
+        public static string binTroca(string a)
+        {
+            string result = a;
+            result = result.Replace('1', 'b');
+            result = result.Replace('0', '1');
+            result = result.Replace('b', '0');
+
+            return result;
+        }
+
+        static string revStr(string Word)
+        {
+            char[] bla = Word.ToCharArray();
+            Array.Reverse(bla);
+            string invertida = new String(bla);
+
+            return invertida;
         }
 
         
+
+       
 
         private void Operacao_Click(object sender, EventArgs e)
         {
@@ -134,31 +162,22 @@ namespace WindowsFormsApplication1
             }
             Button xXx_operacao_xXx = sender as Button;
             operacao = xXx_operacao_xXx.Text;
-          
             n1 = textbox.Text;
-         
             segundo = true;
             eresultado = false;
             lastOperacao = "";
-        
-        
-        
-        
         }
-
 
         private void binario_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void decimal_Click(object sender, EventArgs e)
         {
-           // textbox.Text = Converter(textbox.Text);
             
         }
 
-       
         private void Number_Click(object sender, EventArgs e)
         {
             Button xXx_digito_xXx = sender as Button;
@@ -199,16 +218,27 @@ namespace WindowsFormsApplication1
                     eresultado = true;
                     if (lastOperacao == "") { n2 = textbox.Text; }
                     else { n1 = textbox.Text; }
-                   lastOperacao = operacao;
-                   
-                   textbox.Text = binSum(n1, n2);
+                    lastOperacao = operacao;
+                    textbox.Text = binSum(n1, n2);
                     Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
-                    
                     //conta.Text = primeironm + " " + operacao + " " + segundonm + " = " + result;
-                   eresultado = true;
-                   
+                    eresultado = true;
                     break;
+                case "-":
+                   eresultado = true;
+                   if (lastOperacao == "") { n2 = textbox.Text; }
+                   else { n1 = textbox.Text; }
+                   lastOperacao = operacao;
+                   if (n1.Length != n2.Length && !(binMaior(n1, n2))) alertbox.Text = "Primeiro menor que segundo";
+                   else { textbox.Text = binSub(n1, n2); }
+                   Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
+                   //conta.Text = primeironm + " " + operacao + " " + segundonm + " = " + result;
+                   eresultado = true;
+                   break;
+                
+         
             }
+
         }
 
         private void C_Click(object sender, EventArgs e)
