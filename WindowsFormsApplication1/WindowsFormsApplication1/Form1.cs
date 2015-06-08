@@ -23,7 +23,7 @@ namespace WindowsFormsApplication1
         public string result;
         
  
-
+       
 
         public Form1()
         {
@@ -42,7 +42,20 @@ namespace WindowsFormsApplication1
             }
         }
 
-        
+        public static string decToBin(double b)
+        {
+            double rest = b % 2;
+            double result = (b - rest) / 2;
+
+            if (b == 1)
+            {
+                return rest.ToString();
+            }
+            else
+            {
+                return decToBin(result) + rest.ToString();
+            }
+        }
 
         public static bool binMaior(string a, string b)
         {
@@ -162,7 +175,26 @@ namespace WindowsFormsApplication1
             return result;
         }
 
-        
+        public static string[] binDiv(string a, string b)
+        {
+
+            string index = "";
+
+            for (int i = 1; i < int.MaxValue; i++)
+            {
+                index = binMul(b, decToBin(i));
+                if (binMaior(index, a))
+                {
+                    return new string[2] { decToBin(i - 1), binSub(a, binSub(index, b)) };
+                }
+                else if (index == a)
+                {
+                    return new string[2] { decToBin(i), "0" };
+                }
+            }
+            return new string[2];
+
+        }
 
         private void Operacao_Click(object sender, EventArgs e)
         {
@@ -181,11 +213,12 @@ namespace WindowsFormsApplication1
 
         private void binario_Click(object sender, EventArgs e)
         {
+            
         }
 
         private void decimal_Click(object sender, EventArgs e)
         {
-          
+           
         }
 
         private void Number_Click(object sender, EventArgs e)
@@ -255,7 +288,22 @@ namespace WindowsFormsApplication1
                    //conta.Text = primeironm + " " + operacao + " " + segundonm + " = " + result;
                    eresultado = true;
                    break;
-                  
+                    case "/":
+                   eresultado = true;
+                   if (lastOperacao == "") { n2 = textbox.Text; }
+                   else { n1 = textbox.Text; }
+                   lastOperacao = operacao;
+                   if (n1.Length != n2.Length && !(binMaior(n1, n2))) alertbox.Text = "Primeiro menor que segundo";
+                   else
+                   {
+                       string[] r = binDiv(n1, n2);
+                       textbox.Text = r[0] + " + Resto:" + r[1];
+                   }                    
+                   Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
+                   //conta.Text = primeironm + " " + operacao + " " + segundonm + " = " + result;
+                   eresultado = true;
+                   break;
+         
             }
 
         }
