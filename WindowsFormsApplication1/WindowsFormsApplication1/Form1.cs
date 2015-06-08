@@ -20,7 +20,6 @@ namespace WindowsFormsApplication1
         public bool segundo = false;
         public string lastOperacao;
         public bool eresultado = false;
-        public bool temvirgula = false;
         public string operacao;
         public string n1;
         public string n2;
@@ -54,38 +53,38 @@ namespace WindowsFormsApplication1
         public Form1()
         {
             InitializeComponent();
-            Console.WriteLine(binSum("101001","10"));
+          
         }
 
-        string[] igualarNum(string n1, string n2) {
-            
+        public static string[] igualarNum(string a, string b) {
 
-            if(n1.Length > n2.Length)
+           
+           if(a.Length > b.Length)
             {
-                int index = n1.Length - n2.Length;
+                int index = a.Length - b.Length;
                 for(int i = 0;i < index;i++)
                 {
-                    n2 = "0" + n2;
+                    b = "0" + b;
                 }
             }
-            else if(n2.Length > n1.Length)
+            else if(b.Length > a.Length)
             {
-                int index = n2.Length - n1.Length;
+                int index = b.Length - a.Length;
                 for(int i = 0;i< index;i++)
                 {
-                    n1 = "0" + n1;
+                    a = "0" + a;
                 }
             }
-            return new string[2]{n1,n2}; 
+            return new string[2]{a,b};
         }
         
-        public string binSum(string n1, string n2)
+        public static string binSum(string a, string b)
         {
-            char[] m1 = igualarNum(n1,n2)[0].ToCharArray();
-            char[] m2 = igualarNum(n1, n2)[1].ToCharArray();
+            char[] m1 = (igualarNum(a,b))[0].ToCharArray();
+            char[] m2 = (igualarNum(a, b))[1].ToCharArray();
             string overflow = "";
             string result = "";
-            Console.WriteLine(igualarNum(n1, n2)[0] + "     " + igualarNum(n1, n2)[1]);
+            
             for(int i = m1.Length - 1;i >= 0;i--)
             {
                 if (string.IsNullOrWhiteSpace(overflow))
@@ -95,31 +94,36 @@ namespace WindowsFormsApplication1
                     if (m1[i].Equals('1') && m2[i].Equals('0')) result += "1";
                     if (m1[i].Equals('1') && m2[i].Equals('1'))
                     {
-                        result += "0";
+
                         overflow = "1";
+                        result = "0" + result;
                     }
                 }
-                else if (m1[i].Equals('0') && m2[i].Equals('0')) 
-                { 
-                    result += "1";
-                    overflow = "";
-                }
-                else if (m1[i].Equals('0') && m2[i].Equals('1') || m1[i].Equals('1') && m2[i].Equals('0'))
+               else if ((m1[i].Equals('0') && m2[i].Equals('1')) || m1[i].Equals('1') && m2[i].Equals('0'))
                 {
-                    result = "0";
+                    
                     overflow = "1";
+                    result = "0" + result;
+                }
+                else if ((m1[i].Equals('0') && m2[i].Equals('0')))
+                {
+                    overflow = "";
+                    result = "1" + result;
+
                 }
                 else if(m1[i].Equals('1') && m2[i].Equals('1'))
                 {
-                    result = "1";
-                    overflow = "1";
+
+                    overflow = "1"; 
+                    result = "1" + result;
+                    
                 }
             }
-            result = overflow + result;
-            char[] bla = result.ToCharArray();
-            Array.Reverse(bla);
-            return new string(bla);
+            return overflow + result;
+           
         }
+
+        
 
         private void Operacao_Click(object sender, EventArgs e)
         {
@@ -130,10 +134,9 @@ namespace WindowsFormsApplication1
             }
             Button xXx_operacao_xXx = sender as Button;
             operacao = xXx_operacao_xXx.Text;
-            Debug.Print(textbox.Text + " | " + operacao);
+          
             n1 = textbox.Text;
-            Debug.Print(n1 + " | " + operacao);
-            temvirgula = false;
+         
             segundo = true;
             eresultado = false;
             lastOperacao = "";
@@ -160,6 +163,8 @@ namespace WindowsFormsApplication1
         {
             Button xXx_digito_xXx = sender as Button;
             lastOperacao = "";
+           
+            
             if (textbox.Text.Length <= 15)
             {
                 if (segundo == true) { textbox.Text = ""; }
@@ -192,15 +197,25 @@ namespace WindowsFormsApplication1
             switch (operacao) { 
                 case "+":
                     eresultado = true;
-                   /* if (lastOperacao == "") { n2 = Convert.ToDouble(textbox.Text); }
-                    else { n1 = Convert.ToDouble(textbox.Text); }*/
-                    //lastOperacao = operacao;
-                    igualarNum(n1,n2);
-                    textbox.Text = binSum(n1, n2);
+                    if (lastOperacao == "") { n2 = textbox.Text; }
+                    else { n1 = textbox.Text; }
+                   lastOperacao = operacao;
+                   
+                   textbox.Text = binSum(n1, n2);
                     Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
+                    
                     //conta.Text = primeironm + " " + operacao + " " + segundonm + " = " + result;
+                   eresultado = true;
+                   
                     break;
             }
+        }
+
+        private void C_Click(object sender, EventArgs e)
+        {
+            textbox.Text = "0";
+            lastOperacao = "";
+            eresultado = true;
         }
 
 
