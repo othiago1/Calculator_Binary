@@ -22,11 +22,13 @@ namespace WindowsFormsApplication1
         public string n2;
         public string result;
         public int index = 0;
+        public string type = "BIN";
  
         public Form1()
         {
             binSum("1001", "1");
-            InitializeComponent();    
+            InitializeComponent();
+            typebox.Text = type;
         }
 
         public static double binToDec(string a, int index = 0)
@@ -212,11 +214,15 @@ namespace WindowsFormsApplication1
         private void binario_Click(object sender, EventArgs e)
         {
             textbox.Text = decToBin(double.Parse(textbox.Text));
+            type = "BIN";
+            typebox.Text = type;
         }
 
         private void decimal_Click(object sender, EventArgs e)
         {
             textbox.Text = Convert.ToString(binToDec(textbox.Text, index = 0));
+            type = "DEC";
+            typebox.Text = type;
         }
 
         private void Number_Click(object sender, EventArgs e)
@@ -255,54 +261,62 @@ namespace WindowsFormsApplication1
 
         private void Igual_Click(object sender, EventArgs e)
         {
-                alertbox.Text = "";
-            switch (operacao) { 
-                    
-                case "+":
-                    eresultado = true;
-                    if (lastOperacao == "") { n2 = textbox.Text; }
-                    else { n1 = textbox.Text; }
-                    lastOperacao = operacao;
-                    textbox.Text = binSum(n1, n2);
-                    Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
-                    eresultado = true;
-                    break;
-                case "-":
-                   eresultado = true;
-                   if (lastOperacao == "") { n2 = textbox.Text; }
-                   else { n1 = textbox.Text; }
-                   lastOperacao = operacao;
-                   if (n1.Length != n2.Length && !(binMaior(n1, n2))) alertbox.Text = "Primeiro menor que segundo";
-                   else { textbox.Text = binSub(n1, n2); }
-                   Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
-                   eresultado = true;
-                   break;
-                case "*":
-                   eresultado = true;
-                   if (lastOperacao == "") { n2 = textbox.Text; }
-                   else { n1 = textbox.Text; }
-                   lastOperacao = operacao;
-                   textbox.Text = binMul(n1, n2);
-                   Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
-                   eresultado = true;
-                   break;
-                    case "/":
-                   eresultado = true;
-                   if (lastOperacao == "") { n2 = textbox.Text; }
-                   else { n1 = textbox.Text; }
-                   lastOperacao = operacao;
-                   if (n1.Length != n2.Length && !(binMaior(n1, n2))) alertbox.Text = "Primeiro menor que segundo";
-                   else
-                   {
-                       string[] r = binDiv(n1, n2);
-                       textbox.Text = r[0] + " + Resto:" + r[1];
-                   }                    
-                   Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
-                   eresultado = true;
-                   break;
-         
-            }
+            alertbox.Text = "";
+            if (type == "BIN")
+            {
+                switch (operacao)
+                {
 
+                    case "+":
+                        eresultado = true;
+                        if (lastOperacao == "") { n2 = textbox.Text; }
+                        else { n1 = textbox.Text; }
+                        lastOperacao = operacao;
+                        textbox.Text = binSum(n1, n2);
+                        Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
+                        eresultado = true;
+                        break;
+                    case "-":
+                        eresultado = true;
+                        if (lastOperacao == "") { n2 = textbox.Text; }
+                        else { n1 = textbox.Text; }
+                        lastOperacao = operacao;
+                        if (n1.Length != n2.Length && !(binMaior(n1, n2))) alertbox.Text = "Primeiro menor que segundo";
+                        else { textbox.Text = binSub(n1, n2); }
+                        Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
+                        eresultado = true;
+                        break;
+                    case "*":
+                        eresultado = true;
+                        if (lastOperacao == "") { n2 = textbox.Text; }
+                        else { n1 = textbox.Text; }
+                        lastOperacao = operacao;
+                        textbox.Text = binMul(n1, n2);
+                        Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
+                        eresultado = true;
+                        break;
+                    case "/":
+                        eresultado = true;
+                        if (lastOperacao == "") { n2 = textbox.Text; }
+                        else { n1 = textbox.Text; }
+                        lastOperacao = operacao;
+                        if (n1.Length != n2.Length && !(binMaior(n1, n2))) alertbox.Text = "Primeiro menor que segundo";
+                        else
+                        {
+                            string[] r = binDiv(n1, n2);
+                            textbox.Text = r[0] + " + Resto:" + r[1];
+                        }
+                        Debug.Print(n1 + " | " + operacao + " | " + n2 + " | " + result);
+                        eresultado = true;
+                        break;
+
+                }
+
+            }
+            else if (type == "DEC") {
+                textbox.Text = n1;
+                alertbox.Text = "NAO É BIN, APENAS BIN";         
+            }
         }
 
         private void C_Click(object sender, EventArgs e)

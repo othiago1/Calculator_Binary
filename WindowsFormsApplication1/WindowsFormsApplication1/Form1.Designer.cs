@@ -31,7 +31,6 @@
             this.textbox = new System.Windows.Forms.TextBox();
             this.binario_button = new System.Windows.Forms.Button();
             this.decimal_button = new System.Windows.Forms.Button();
-            this.hexa_button = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -41,6 +40,7 @@
             this.button_0 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.alertbox = new System.Windows.Forms.Label();
+            this.typebox = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textbox
@@ -74,15 +74,6 @@
             this.decimal_button.Text = "Decimal";
             this.decimal_button.UseVisualStyleBackColor = true;
             this.decimal_button.Click += new System.EventHandler(this.decimal_Click);
-            // 
-            // hexa_button
-            // 
-            this.hexa_button.Location = new System.Drawing.Point(12, 115);
-            this.hexa_button.Name = "hexa_button";
-            this.hexa_button.Size = new System.Drawing.Size(87, 23);
-            this.hexa_button.TabIndex = 3;
-            this.hexa_button.Text = "Hexadecimal";
-            this.hexa_button.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -172,11 +163,20 @@
             this.alertbox.Size = new System.Drawing.Size(0, 13);
             this.alertbox.TabIndex = 14;
             // 
+            // typebox
+            // 
+            this.typebox.AutoSize = true;
+            this.typebox.Location = new System.Drawing.Point(17, 120);
+            this.typebox.Name = "typebox";
+            this.typebox.Size = new System.Drawing.Size(0, 13);
+            this.typebox.TabIndex = 15;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.typebox);
             this.Controls.Add(this.alertbox);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button_0);
@@ -186,7 +186,6 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.hexa_button);
             this.Controls.Add(this.decimal_button);
             this.Controls.Add(this.binario_button);
             this.Controls.Add(this.textbox);
@@ -202,7 +201,6 @@
         private System.Windows.Forms.TextBox textbox;
         private System.Windows.Forms.Button binario_button;
         private System.Windows.Forms.Button decimal_button;
-        private System.Windows.Forms.Button hexa_button;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
@@ -212,6 +210,7 @@
         private System.Windows.Forms.Button button_0;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Label alertbox;
+        private System.Windows.Forms.Label typebox;
     }
 }
 
